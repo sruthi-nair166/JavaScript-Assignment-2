@@ -3,48 +3,89 @@ const input = document.querySelector("input");
 
 let display = "";
 let number = "";
+let numberArray = [];
 let operator;
 let result;
 
-function squareCube(num, e) {
-  console.log(e.target.id);
+function squareCube(e) {
+  equal(e);
   if (e.target.id === "square") {
-    result = Number(num) ** 2;
+    result = Number(number) ** 2;
   } else {
-    result = Number(num) ** 3;
+    result = Number(number) ** 3;
   }
 
   display = result;
   input.value = display;
-  number = "";
+  number = result;
+  result = "";
+}
+
+function equal(e) {
+  if ((numberArray.length === 2 && operator) || e.target.id === "=") {
+    switch (operator) {
+      case "+":
+        result = Number(numberArray[0]) + Number(numberArray[1]);
+        break;
+      case "-":
+        result = Number(numberArray[0]) - Number(numberArray[1]);
+
+        break;
+      case "*":
+        result = Number(numberArray[0]) * Number(numberArray[1]);
+
+        break;
+      case "/":
+        result = Number(numberArray[0]) / Number(numberArray[1]);
+        break;
+    }
+    display = result;
+    input.value = display;
+
+    numberArray = [];
+    operator = "";
+    number = result;
+  }
+  return;
 }
 
 function clear() {
   number = "";
   display = "";
   operator = "";
-  result = "";
-  input.value = 0;
+  result = 0;
+  input.value = "";
 }
 
 for (let i = 0; i < buttons.length; i++) {
   buttons[i].addEventListener("click", (e) => {
-    console.log(buttons[i].id);
-    if (/\d/.test(Number(buttons[i].id))) {
+    if (/\d/.test(buttons[i].id)) {
       number += buttons[i].id;
+      display += buttons[i].id;
+      input.value = display;
+      return;
     }
 
     if (buttons[i].id === "clear") {
       clear();
+      return;
     }
 
-    input.value = number;
     if (number) {
-      switch (buttons[i].id) {
-        case "square":
-        case "cube":
-          squareCube(number, e);
-          break;
+      if (buttons[i].id === "square" || buttons[i].id === "cube") {
+        squareCube(e);
+        return;
+      }
+
+      if (/[+\-*/=]/.test(buttons[i].id)) {
+        numberArray.push(number);
+
+        if (buttons[i].id !== "=" && !operator) operator = buttons[i].id;
+
+        number = "";
+        display += buttons[i].id;
+        input.value = display;
+        equal(e);
       }
     }
   });
