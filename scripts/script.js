@@ -8,7 +8,6 @@ let operator;
 let result;
 
 function squareCube(e) {
-  equal(e);
   if (e.target.id === "square") {
     result = Number(number) ** 2;
   } else {
@@ -19,6 +18,7 @@ function squareCube(e) {
   input.value = display;
   number = result;
   result = "";
+  numberArray = [];
 }
 
 function equal(e) {
@@ -66,6 +66,15 @@ for (let i = 0; i < buttons.length; i++) {
       return;
     }
 
+    if (buttons[i].id === ".") {
+      if (!number.includes(".")) {
+        number += buttons[i].id;
+        display += buttons[i].id;
+        input.value = display;
+        return;
+      }
+    }
+
     if (buttons[i].id === "clear") {
       clear();
       return;
@@ -73,6 +82,12 @@ for (let i = 0; i < buttons.length; i++) {
 
     if (number) {
       if (buttons[i].id === "square" || buttons[i].id === "cube") {
+        if (operator && numberArray.length === 1) {
+          numberArray.push(number);
+          equal(e);
+          number = result;
+        }
+
         squareCube(e);
         return;
       }

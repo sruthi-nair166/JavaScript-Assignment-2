@@ -9,7 +9,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: rgb(233, 243, 255);
+  background-color: rgb(236, 244, 255);
 }
 
 main {
@@ -40,6 +40,11 @@ button:hover {
 
 .green {
   color: green;
+  background-color: rgb(239, 248, 245);
+}
+
+.green:hover {
+  background-color: rgb(222, 233, 229);
 }
 
 input {
